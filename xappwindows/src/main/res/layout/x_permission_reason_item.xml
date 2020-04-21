@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="22dp"
+    android:orientation="horizontal">
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/x_permission_logo_bg">
+
+
+        <ImageView
+            android:id="@+id/permissionIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxHeight="23dp"
+            android:minWidth="23dp"
+            android:src="@drawable/eg_storage_permission" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="19dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/permissionName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="#222222"
+            android:textSize="15.5dp"
+            android:textStyle="bold"
+            tools:text="存储权限" />
+
+        <TextView
+            android:id="@+id/permissionDescribe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:maxLines="2"
+            android:textColor="#9a9a9a"
+            android:textSize="12dp"
+            tools:text="开启权限后，可以使用图片下载、文件上传等功能" />
+
+    </LinearLayout>
+
+</LinearLayout>

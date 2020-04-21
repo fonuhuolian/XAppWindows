@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permissions_notice_msg">权限提示</string>
+    <string name="permissions_reason_msg_part1">为了给您提供更好的服务，</string>
+    <string name="permissions_reason_msg_part2">需要向您申请一下权限：</string>
+</resources>

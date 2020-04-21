@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/global_outside_bg"
+    android:orientation="vertical"
+    android:paddingLeft="35dp"
+    android:paddingRight="35dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:gravity="center_vertical"
+        android:text="@string/permissions_notice_msg"
+        android:textColor="#222222"
+        android:textSize="19dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/x_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textColor="#222222"
+        android:textSize="14dp"
+        tools:text="申请权限的理由" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/x_reason_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <TextView
+        android:id="@+id/x_permission_agree"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="26dp"
+        android:background="@drawable/x_permission_button_bg"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="同意"
+        android:textColor="#222222"
+        android:textSize="14dp"
+        android:textStyle="bold" />
+
+
+</LinearLayout>
