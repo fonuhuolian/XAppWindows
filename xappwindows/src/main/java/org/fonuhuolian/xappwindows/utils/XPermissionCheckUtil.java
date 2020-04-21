@@ -9,11 +9,11 @@ import android.support.v4.content.ContextCompat;
  * Created by mac on 2017/10/26.
  */
 
-public class PermissionCheckUtil {
+public class XPermissionCheckUtil {
 
     private Context mContext;
 
-    public PermissionCheckUtil(Context mContext) {
+    public XPermissionCheckUtil(Context mContext) {
         this.mContext = mContext;
     }
 
