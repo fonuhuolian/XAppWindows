@@ -1,7 +1,6 @@
 package org.fonuhuolian.xappwindows;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -51,6 +51,8 @@ public class XPermissionsNoticeWindow {
     private boolean isInterceptResume = false;
     // 是否已启动start
     private boolean isStarted = false;
+    // 二次弹出框
+    private AlertDialog dialog;
 
     /**
      * 初始化权限检查
@@ -119,6 +121,8 @@ public class XPermissionsNoticeWindow {
                     mListener.onGranted();
                 }
 
+                // 关闭进行onResume监听
+                isStarted = true;
                 popWindow.dismiss();
             }
         });
@@ -134,6 +138,7 @@ public class XPermissionsNoticeWindow {
 
             if (!mChecker.isNeedRequestPermissions(ALL_PERMISSION)) {
                 isInterceptResume = true;
+                // 这里不用考虑isStarted 走接口的回调
                 mListener.onGranted();
             } else {
                 isInterceptResume = false;
@@ -142,29 +147,33 @@ public class XPermissionsNoticeWindow {
 
         } else {
             if (!mChecker.isNeedRequestPermissions(ALL_PERMISSION)) {
-                isInterceptResume = true;
+                // 这里不用考虑isStarted 走接口的回调
                 mListener.onGranted();
             } else {
                 isInterceptResume = false;
                 // 请求权限
                 requestPermissions(ALL_PERMISSION);
+                // 请求完权限支持走resume方法
+                isStarted = true;
             }
         }
-
-        isStarted = true;
 
         return this;
     }
 
     public void onResume() {
 
-        if (isStarted) {
+        boolean showing = popWindow.isShowing();
+        if (isStarted && !showing) {
 
             if (isInterceptResume) {
                 isInterceptResume = false;
             } else {
                 if (mChecker.isNeedRequestPermissions(ALL_PERMISSION)) {
-                    requestPermissions(ALL_PERMISSION); // 请求权限
+
+                    if (dialog == null || !dialog.isShowing()) {
+                        requestPermissions(ALL_PERMISSION); // 请求权限
+                    }
                 } else {
                     mListener.onGranted(); // 全部权限都已获取
                 }
@@ -193,35 +202,38 @@ public class XPermissionsNoticeWindow {
     // 显示缺失权限提示
     private void showMissingPermissionDialog() {
 
+        if (dialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+            builder.setTitle("帮助");
+            builder.setMessage("当前应用缺少必要权限(" + allPermissionName + ")。"
+                    + "\n" + "\n"
+                    + "请点击" + "\"设置\"-"
+                    + "\"权限\"-" + "打开所需权限。"
+                    + "\n" + "\n"
+                    + "最后点击两次后退按钮，即可返回。"
+            );
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setTitle("帮助");
-        builder.setMessage("当前应用缺少必要权限(" + allPermissionName + ")。"
-                + "\n" + "\n"
-                + "请点击" + "\"设置\"-"
-                + "\"权限\"-" + "打开所需权限。"
-                + "\n" + "\n"
-                + "最后点击两次后退按钮，即可返回。"
-        );
+            // 拒绝, 退出应用
+            builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mActivity.finish();
+                }
+            });
 
-        // 拒绝, 退出应用
-        builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mActivity.finish();
-            }
-        });
+            builder.setPositiveButton("设置", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startAppSettings();
+                }
+            });
 
-        builder.setPositiveButton("设置", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startAppSettings();
-            }
-        });
+            builder.setCancelable(false);
 
-        builder.setCancelable(false);
+            dialog = builder.create();
+        }
 
-        builder.show();
+        dialog.show();
     }
 
     // 启动应用的设置
@@ -267,6 +279,9 @@ public class XPermissionsNoticeWindow {
                     // 请求权限
                     requestPermissions(ALL_PERMISSION);
                 }
+
+                // 失败去onResume监听
+                isStarted = true;
             }
         }
     }
