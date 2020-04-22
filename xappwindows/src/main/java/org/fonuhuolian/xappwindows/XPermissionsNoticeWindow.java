@@ -26,7 +26,9 @@ import org.fonuhuolian.xappwindows.utils.XPermissionCheckUtil;
 
 import java.util.List;
 
-
+/**
+ * TODO 权限弹出框
+ */
 public class XPermissionsNoticeWindow {
 
     private XPopupWindow popWindow;
@@ -50,6 +52,14 @@ public class XPermissionsNoticeWindow {
     // 是否已启动start
     private boolean isStarted = false;
 
+    /**
+     * 初始化权限检查
+     *
+     * @param context               上下文对象
+     * @param dataList              List<包含 icon,权限名称,权限描述,权限的id>
+     * @param XPermissionNoticeBean eg. R.drawable.eg_storage_permission, "存储权限", "启权限后，可以使用图片下载、文件上传等功能", Manifest.permission.WRITE_EXTERNAL_STORAGE
+     * @param listener              监听
+     */
     public XPermissionsNoticeWindow(final Activity context, List<XPermissionNoticeBean> dataList, @NonNull Listener listener) {
 
         this.mActivity = context;
@@ -159,6 +169,14 @@ public class XPermissionsNoticeWindow {
                 }
             }
         }
+    }
+
+    public void onDestroy() {
+        popWindow.dismiss();
+    }
+
+    public boolean isShowing() {
+        return popWindow != null && popWindow.isShowing();
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

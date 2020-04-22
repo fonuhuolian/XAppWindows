@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AppWindows</string>
+    <string name="start">感谢您信任并使用xxx！\n\n我们非常重视您的个人信息和隐私保护，为了更好的保障您的个人权益，在您使用我们的产品前，请您认真阅读</string>
+    <string name="end">的全部内容，同意并接受全部条款后开始使用我们的产品和服务。</string>
+    <string name="agreement1">《用户协议》</string>
+    <string name="agreement2">《隐私政策》</string>
 </resources>

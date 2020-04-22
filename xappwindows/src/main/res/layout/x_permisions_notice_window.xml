@@ -40,10 +40,10 @@
         android:layout_height="46dp"
         android:layout_marginTop="26dp"
         android:layout_marginBottom="26dp"
-        android:background="@drawable/x_permission_button_bg"
+        android:background="@drawable/x_gray_button_bg"
         android:gravity="center"
         android:singleLine="true"
-        android:text="同意"
+        android:text="@string/agree_msg"
         android:textColor="#222222"
         android:textSize="14dp"
         android:textStyle="bold" />
