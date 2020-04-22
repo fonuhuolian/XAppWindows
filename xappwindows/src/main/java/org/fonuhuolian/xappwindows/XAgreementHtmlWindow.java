@@ -30,6 +30,8 @@ class XAgreementHtmlWindow {
 
     private WebView webView;
 
+    private String mUrl;
+
     public XAgreementHtmlWindow(final Activity context, @NonNull Listener listener) {
 
         this.mActivity = context;
@@ -81,7 +83,10 @@ class XAgreementHtmlWindow {
         if (popWindow != null) {
 
             try {
-                webView.loadUrl(url);
+                if (mUrl.equals(url))
+                    webView.reload();
+                else
+                    webView.loadUrl(url);
                 final View decorView = mActivity.getWindow().getDecorView();
                 decorView.post(new Runnable() {
                     @Override
