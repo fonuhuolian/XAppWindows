@@ -9,5 +9,5 @@
     <string name="agree_and_go_on_msg">同意并继续</string>
     <string name="refuse_msg">不同意</string>
     <string name="permissions_reason_msg_part1">为了给您提供更好的服务，</string>
-    <string name="permissions_reason_msg_part2">需要向您申请一下权限：</string>
+    <string name="permissions_reason_msg_part2">需要向您申请以下权限：</string>
 </resources>

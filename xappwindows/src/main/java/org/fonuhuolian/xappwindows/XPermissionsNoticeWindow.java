@@ -136,7 +136,7 @@ public class XPermissionsNoticeWindow {
                 isInterceptResume = true;
                 mListener.onGranted();
             } else {
-                isInterceptResume = true;
+                isInterceptResume = false;
                 show();
             }
 
@@ -145,6 +145,7 @@ public class XPermissionsNoticeWindow {
                 isInterceptResume = true;
                 mListener.onGranted();
             } else {
+                isInterceptResume = false;
                 // 请求权限
                 requestPermissions(ALL_PERMISSION);
             }

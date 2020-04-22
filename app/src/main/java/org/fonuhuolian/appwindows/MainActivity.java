@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // ② 协议检查
-        xAgreementWindow = new XAgreementWindow(MainActivity.this, getString(R.string.start), getString(R.string.agreement1), getString(R.string.agreement2), getString(R.string.end), "https://ourpyw.com/privacy/privacyStatement.html", "https://ourpyw.com/privacy/privacyStatement.html", new XAgreementWindow.Listener() {
+        xAgreementWindow = new XAgreementWindow(MainActivity.this, getString(R.string.start), getString(R.string.agreement1), getString(R.string.agreement2), getString(R.string.end), "https://github.com/fonuhuolian/XAppWindows", "https://github.com/fonuhuolian/XAppWindows", new XAgreementWindow.Listener() {
 
             @Override
             public void onAgreed() {
