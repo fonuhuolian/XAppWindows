@@ -29,7 +29,7 @@
         android:paddingRight="25dp"
         android:singleLine="true"
         android:text="@string/know_msg"
-        android:textColor="#2012d9"
+        android:textColor="#008EFF"
         android:textSize="14dp"
         android:textStyle="bold" />
 

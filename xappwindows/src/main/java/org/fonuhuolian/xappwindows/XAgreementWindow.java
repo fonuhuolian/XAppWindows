@@ -181,7 +181,7 @@ public class XAgreementWindow {
     }
 
     // TODO 转换 string
-    private SpannableStringBuilder getString(String start, String agreement1, String agreement2, String end, final String agreementUrl1, String agreementUrl2) {
+    private SpannableStringBuilder getString(String start, String agreement1, String agreement2, String end, final String agreementUrl1, final String agreementUrl2) {
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(start);
@@ -224,7 +224,7 @@ public class XAgreementWindow {
                     @Override
                     public void run() {
                         if (htmlWindow != null)
-                            htmlWindow.show(agreementUrl1);
+                            htmlWindow.show(agreementUrl2);
                     }
                 }, 200);
             }
