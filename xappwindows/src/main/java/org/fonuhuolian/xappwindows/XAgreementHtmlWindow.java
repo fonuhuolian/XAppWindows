@@ -30,8 +30,6 @@ class XAgreementHtmlWindow {
 
     private WebView webView;
 
-    private String mUrl;
-
     public XAgreementHtmlWindow(final Activity context, @NonNull Listener listener) {
 
         this.mActivity = context;
@@ -58,7 +56,9 @@ class XAgreementHtmlWindow {
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
                 pb.setProgress(newProgress);
+                webView.scrollTo(0, 0);
                 pb.setVisibility(newProgress == 100 ? View.GONE : View.VISIBLE);
+                webView.setVisibility(newProgress == 100 ? View.VISIBLE : View.INVISIBLE);
 
             }
         });
@@ -83,10 +83,7 @@ class XAgreementHtmlWindow {
         if (popWindow != null) {
 
             try {
-                if (mUrl.equals(url))
-                    webView.reload();
-                else
-                    webView.loadUrl(url);
+                webView.loadUrl(url);
                 final View decorView = mActivity.getWindow().getDecorView();
                 decorView.post(new Runnable() {
                     @Override
