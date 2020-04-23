@@ -76,6 +76,7 @@ class XNotifactionShowHowWindow {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        XNotifactionUtils.setVersionNeverNotify(mActivity);
                         XNotifactionUtils.jumpToAppDetailsSettings(context);
                     }
                 }, 200);
@@ -102,12 +103,12 @@ class XNotifactionShowHowWindow {
                                 int right = bg.getWidth() - btn.getWidth();
                                 ObjectAnimator animator = ObjectAnimator.ofFloat(btn, "translationX",
                                         0, right);
-                                animator.setDuration(2000);
+                                animator.setDuration(1000);
                                 animator.start();
 
                                 ObjectAnimator animator2 = ObjectAnimator.ofFloat(finger, "translationX",
                                         0, right);
-                                animator2.setDuration(2000);
+                                animator2.setDuration(1000);
                                 animator2.start();
                             }
                         }, 1000);
@@ -116,6 +117,7 @@ class XNotifactionShowHowWindow {
 
             } catch (Exception e) {
                 // 防止crash后永远不能进入
+                XNotifactionUtils.setVersionNeverNotify(mActivity);
                 XNotifactionUtils.jumpToAppDetailsSettings(mActivity);
             }
         }
