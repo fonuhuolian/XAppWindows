@@ -84,7 +84,7 @@ permissionsWindow.onDestroy();
 // 判断是否弹出弹出框
 permissionsWindow.isShowing();
 ```
-> 联合使用(协议检查+权限检查)
+> 联合使用(协议检查+权限检查)【一般用于入口Activity使用】
 ```
 public class MainActivity extends AppCompatActivity {
 
