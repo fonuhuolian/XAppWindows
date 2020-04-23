@@ -96,6 +96,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 避免从桌面启动程序后，会重新实例化入口类的activity
+        if (!this.isTaskRoot()) { // 判断当前activity是不是所在任务栈的根
+            Intent intent = getIntent();
+            if (intent != null) {
+                String action = intent.getAction();
+                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+                    finish();
+                    return;
+                }
+            }
+        }
+
         // ① 权限申请 防止onAgreed的时候xPermissionsNoticeWindow还没初始化完毕
         final List<XPermissionNoticeBean> l = new ArrayList<>();
         l.add(new XPermissionNoticeBean(R.drawable.eg_storage_permission, "存储权限", "启权限后，可以使用图片下载、文件上传等功能", Manifest.permission.WRITE_EXTERNAL_STORAGE));
@@ -150,4 +162,26 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
+```
+`XNotifactionWindow`通知提醒框
+```
+/**
+  * 初始化通知提醒框
+  * @param context        依附的Activity
+  * @param reasonMsg      提醒的原因
+  * @param isNeedShowHow  是否展示开启示例
+*/
+public XNotifactionWindow(final Activity context, @NonNull String reasonMsg, final boolean isNeedShowHow);
+```
+```
+// 启动协议检查
+notifactionWindow.start();
+```
+```
+// 在Activity的onDestroy方法里调用，防止内存泄漏
+notifaction.onDestroy();
+```
+```
+// 判断是否弹出弹出框
+notifaction.isShowing();
 ```

@@ -8,6 +8,10 @@
     <string name="agree_msg">同意</string>
     <string name="agree_and_go_on_msg">同意并继续</string>
     <string name="refuse_msg">不同意</string>
+    <string name="notifaction_open_msg">开启</string>
+    <string name="cancle_msg">取消</string>
+    <string name="notifaction_part1">请在列表中找到"</string>
+    <string name="notifaction_part2">"，并打开开关</string>
     <string name="permissions_reason_msg_part1">为了给您提供更好的服务，</string>
     <string name="permissions_reason_msg_part2">需要向您申请以下权限：</string>
 </resources>
