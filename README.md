@@ -179,9 +179,9 @@ notifactionWindow.start();
 ```
 ```
 // 在Activity的onDestroy方法里调用，防止内存泄漏
-notifaction.onDestroy();
+notifactionWindow.onDestroy();
 ```
 ```
 // 判断是否弹出弹出框
-notifaction.isShowing();
+notifactionWindow.isShowing();
 ```
