@@ -76,7 +76,6 @@ class XNotifactionShowHowWindow {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        XNotifactionUtils.setVersionNeverNotify(mActivity);
                         XNotifactionUtils.jumpToAppDetailsSettings(context);
                     }
                 }, 200);
@@ -117,7 +116,6 @@ class XNotifactionShowHowWindow {
 
             } catch (Exception e) {
                 // 防止crash后永远不能进入
-                XNotifactionUtils.setVersionNeverNotify(mActivity);
                 XNotifactionUtils.jumpToAppDetailsSettings(mActivity);
             }
         }

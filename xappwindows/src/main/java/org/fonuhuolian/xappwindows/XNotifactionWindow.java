@@ -58,12 +58,6 @@ public class XNotifactionWindow {
             @Override
             public void onClick(View v) {
                 popWindow.dismiss();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        XNotifactionUtils.setVersionNeverNotify(context);
-                    }
-                }, 200);
             }
         });
 
@@ -90,7 +84,7 @@ public class XNotifactionWindow {
 
     public void start() {
 
-        if (!XNotifactionUtils.isNotificationEnabled(mActivity)) {
+        if (!XNotifactionUtils.isNeedShowDialog(mActivity)) {
             show();
         }
 
@@ -99,6 +93,8 @@ public class XNotifactionWindow {
     private void show() {
 
         if (popWindow != null) {
+
+            XNotifactionUtils.setVersionNeverNotify(mActivity);
 
             try {
                 final View decorView = mActivity.getWindow().getDecorView();
