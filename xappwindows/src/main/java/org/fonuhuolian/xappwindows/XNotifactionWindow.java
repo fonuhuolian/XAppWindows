@@ -84,7 +84,7 @@ public class XNotifactionWindow {
 
     public void start() {
 
-        if (!XNotifactionUtils.isNeedShowDialog(mActivity)) {
+        if (XNotifactionUtils.isNeedShowDialog(mActivity)) {
             show();
         }
 
