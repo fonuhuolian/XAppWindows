@@ -15,7 +15,7 @@ allprojects {
 ```
 `module build.gradle `
 ```
-implementation ('com.github.fonuhuolian:XAppWindows:1.0.4'){
+implementation ('com.github.fonuhuolian:XAppWindows:1.0.5'){
         // 本项目使用了 recyclerview 为防止包错误，请用自身项目的support包
         exclude group: 'com.android.support', module: 'support-annotations'
 }
