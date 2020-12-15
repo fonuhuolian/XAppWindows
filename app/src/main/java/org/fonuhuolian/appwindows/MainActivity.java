@@ -3,8 +3,9 @@ package org.fonuhuolian.appwindows;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.fonuhuolian.xappwindows.XAgreementWindow;
 import org.fonuhuolian.xappwindows.XPermissionsNoticeWindow;

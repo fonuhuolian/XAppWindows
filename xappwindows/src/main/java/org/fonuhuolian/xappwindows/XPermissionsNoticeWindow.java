@@ -1,6 +1,7 @@
 package org.fonuhuolian.xappwindows;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,16 +10,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.fonuhuolian.xappwindows.adapter.XPermissionNoticeAdapter;
 import org.fonuhuolian.xappwindows.bean.XPermissionNoticeBean;
@@ -57,10 +58,10 @@ public class XPermissionsNoticeWindow {
     /**
      * 初始化权限检查
      *
-     * @param context               上下文对象
-     * @param dataList              List<包含 icon,权限名称,权限描述,权限的id>
-     * @param XPermissionNoticeBean eg. R.drawable.eg_storage_permission, "存储权限", "启权限后，可以使用图片下载、文件上传等功能", Manifest.permission.WRITE_EXTERNAL_STORAGE
-     * @param listener              监听
+     * @param context  上下文对象
+     * @param dataList List<包含 icon,权限名称,权限描述,权限的id>
+     *                 eg. R.drawable.eg_storage_permission, "存储权限", "启权限后，可以使用图片下载、文件上传等功能", Manifest.permission.WRITE_EXTERNAL_STORAGE
+     * @param listener 监听
      */
     public XPermissionsNoticeWindow(final Activity context, List<XPermissionNoticeBean> dataList, @NonNull Listener listener) {
 
@@ -84,7 +85,7 @@ public class XPermissionsNoticeWindow {
 
         for (int i = 0; i < dataList.size(); i++) {
             ALL_PERMISSION[i] = dataList.get(i).getManifestPermission();
-            allPermissionName.append(dataList.get(i).getpName());
+            allPermissionName.append(dataList.get(i).getpName() + (i == dataList.size() - 1 ? "" : "、"));
         }
 
 
