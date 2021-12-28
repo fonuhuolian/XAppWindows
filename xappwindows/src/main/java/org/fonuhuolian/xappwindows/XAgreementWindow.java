@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ public class XAgreementWindow {
     /**
      * @param context       依附的Activity
      * @param startMsg      协议理由开始片段
+     * @param textSize      浏览器文字大小，可传null
      * @param agreement1    例如：《隐私政策》
      * @param agreement2    例如：《用户协议》
      * @param endMsg        协议理由后部分片段
@@ -48,18 +50,19 @@ public class XAgreementWindow {
      * @param agreementUrl2 对应agreement2的url
      * @param listener      监听
      */
-    public XAgreementWindow(final Activity context, String startMsg, String agreement1, String agreement2, String endMsg, String agreementUrl1, String agreementUrl2, @NonNull Listener listener) {
+    public XAgreementWindow(final Activity context, String startMsg, WebSettings.TextSize textSize, String agreement1, String agreement2, String endMsg, String agreementUrl1, String agreementUrl2, @NonNull Listener listener) {
 
         this.mActivity = context;
         mListener = listener;
 
         // 优先生成协议预览(防止拒点击协议链接时未初始化完毕)
-        htmlWindow = new XAgreementHtmlWindow(mActivity, new XAgreementHtmlWindow.Listener() {
-            @Override
-            public void onKnown() {
-                show();
-            }
-        });
+        htmlWindow = new XAgreementHtmlWindow(mActivity, textSize,
+                new XAgreementHtmlWindow.Listener() {
+                    @Override
+                    public void onKnown() {
+                        show();
+                    }
+                });
 
         // 优先生成退出提醒(防止拒绝时弹出时未初始化完毕)
         exitAppWindow = new XAgreementExitAppWindow(context, new XAgreementExitAppWindow.Listener() {

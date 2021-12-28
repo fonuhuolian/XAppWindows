@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -31,7 +32,7 @@ class XAgreementHtmlWindow {
 
     private WebView webView;
 
-    public XAgreementHtmlWindow(final Activity context, @NonNull Listener listener) {
+    public XAgreementHtmlWindow(final Activity context, WebSettings.TextSize textSize, @NonNull Listener listener) {
 
         this.mActivity = context;
         mListener = listener;
@@ -50,6 +51,7 @@ class XAgreementHtmlWindow {
         final ProgressBar pb = (ProgressBar) contentView.findViewById(R.id.x_pb);
 
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setTextSize(textSize == null ? WebSettings.TextSize.NORMAL : textSize);
         webView.setWebViewClient(new WebViewClient());
 
         webView.setWebChromeClient(new WebChromeClient() {
