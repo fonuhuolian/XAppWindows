@@ -3,7 +3,6 @@ package org.fonuhuolian.appwindows;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.webkit.WebSettings;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // ② 协议检查
-        xAgreementWindow = new XAgreementWindow(MainActivity.this, getString(R.string.start), WebSettings.TextSize.SMALLEST, getString(R.string.agreement1), getString(R.string.agreement2), getString(R.string.end), "https://github.com/fonuhuolian/XAppWindows", "https://github.com/fonuhuolian/XAppWindows", new XAgreementWindow.Listener() {
+        xAgreementWindow = new XAgreementWindow(MainActivity.this, getString(R.string.start), null, getString(R.string.agreement1), getString(R.string.agreement2), getString(R.string.end), "https://github.com/fonuhuolian/XAppWindows", "https://github.com/fonuhuolian/XAppWindows", new XAgreementWindow.Listener() {
 
             @Override
             public void onAgreed() {

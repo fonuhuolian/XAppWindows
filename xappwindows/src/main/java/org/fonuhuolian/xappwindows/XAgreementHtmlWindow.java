@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import org.fonuhuolian.xappwindows.view.CircleWebview;
+
 /**
  * TODO 隐私政策详情的弹出框(不对外提供)
  */
@@ -30,7 +32,7 @@ class XAgreementHtmlWindow {
 
     private Handler handler = new Handler(Looper.getMainLooper());
 
-    private WebView webView;
+    private CircleWebview webView;
 
     public XAgreementHtmlWindow(final Activity context, WebSettings.TextSize textSize, @NonNull Listener listener) {
 
@@ -46,7 +48,10 @@ class XAgreementHtmlWindow {
         popWindow.setAnimationStyle(R.style.global_pop_animation);
 
         //处理popWindow 显示内容
-        webView = (WebView) contentView.findViewById(R.id.x_webView);
+        webView = contentView.findViewById(R.id.x_webView);
+        final float scale = context.getResources().getDisplayMetrics().density;
+        float v = 24 * scale + 0.5f;
+        webView.setRadius(v);
         TextView agree = (TextView) contentView.findViewById(R.id.x_detail_agree);
         final ProgressBar pb = (ProgressBar) contentView.findViewById(R.id.x_pb);
 
