@@ -40,7 +40,7 @@ implementation com.github.fonuhuolian:XAppWindows:1.0.7
   * @param agreementUrl2 对应agreement2的url
   * @param listener      监听
 */
-public XAgreementWindow(final Activity context, String startMsg, String agreement1, String agreement2, String endMsg, String agreementUrl1, String agreementUrl2, @NonNull Listener listener) ；
+public XAgreementWindow(final Activity context, String startMsg, WebSettings.TextSize textSize, String agreement1, String agreement2, String endMsg, String agreementUrl1, String agreementUrl2, @NonNull Listener listener) ；
 
 ```
 ```
