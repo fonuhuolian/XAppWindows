@@ -60,12 +60,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        xPermissionsNoticeWindow.onResume();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         xAgreementWindow.onDestroy();

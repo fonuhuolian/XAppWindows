@@ -1,15 +1,10 @@
 package org.fonuhuolian.xappwindows;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.provider.Settings;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,16 +39,6 @@ public class XPermissionsNoticeWindow {
     private Activity mActivity;
     // 监听
     private Listener mListener;
-    // 权限拼接
-    private StringBuffer allPermissionName = new StringBuffer();
-    // 方案
-    private static final String PACKAGE_URL_SCHEME = "package:";
-    // 是否拦截resume
-    private boolean isInterceptResume = false;
-    // 是否已启动start
-    private boolean isStarted = false;
-    // 二次弹出框
-    private AlertDialog dialog;
 
     /**
      * 初始化权限检查
@@ -85,9 +70,7 @@ public class XPermissionsNoticeWindow {
 
         for (int i = 0; i < dataList.size(); i++) {
             ALL_PERMISSION[i] = dataList.get(i).getManifestPermission();
-            allPermissionName.append(dataList.get(i).getpName() + (i == dataList.size() - 1 ? "" : "、"));
         }
-
 
         try {
             PackageManager packageManager = context.getPackageManager();
@@ -122,8 +105,6 @@ public class XPermissionsNoticeWindow {
                     mListener.onGranted();
                 }
 
-                // 关闭进行onResume监听
-                isStarted = true;
                 popWindow.dismiss();
             }
         });
@@ -138,49 +119,19 @@ public class XPermissionsNoticeWindow {
         if (isFirst) {
 
             if (!mChecker.isNeedRequestPermissions(ALL_PERMISSION)) {
-                isInterceptResume = true;
-                // 这里不用考虑isStarted 走接口的回调
                 mListener.onGranted();
             } else {
-                isInterceptResume = false;
                 show();
             }
 
         } else {
-            if (!mChecker.isNeedRequestPermissions(ALL_PERMISSION)) {
-                // 这里不用考虑isStarted 走接口的回调
-                mListener.onGranted();
-            } else {
-                isInterceptResume = false;
-                // 请求权限
-                requestPermissions(ALL_PERMISSION);
-                // 请求完权限支持走resume方法
-                isStarted = true;
-            }
+            // 展示过弹窗，默认放行
+            mListener.onGranted();
         }
 
         return this;
     }
 
-    public void onResume() {
-
-        boolean showing = popWindow.isShowing();
-        if (isStarted && !showing) {
-
-            if (isInterceptResume) {
-                isInterceptResume = false;
-            } else {
-                if (mChecker.isNeedRequestPermissions(ALL_PERMISSION)) {
-
-                    if (dialog == null || !dialog.isShowing()) {
-                        requestPermissions(ALL_PERMISSION); // 请求权限
-                    }
-                } else {
-                    mListener.onGranted(); // 全部权限都已获取
-                }
-            }
-        }
-    }
 
     public void onDestroy() {
         popWindow.dismiss();
@@ -190,68 +141,11 @@ public class XPermissionsNoticeWindow {
         return popWindow != null && popWindow.isShowing();
     }
 
+    /**
+     * 同意不同意都放行，根据国家政策
+     */
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        if (requestCode == REQUEST_CODE_PERMISSION && hasAllPermissionsGranted(grantResults)) {
-            // 由onResume去执行onGranted() 否则可能调用两次
-        } else {
-            isInterceptResume = true;
-            showMissingPermissionDialog();
-        }
-    }
-
-    // 显示缺失权限提示
-    private void showMissingPermissionDialog() {
-
-        if (dialog == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-            builder.setTitle("帮助");
-            builder.setMessage("当前应用缺少必要权限(" + allPermissionName + ")。"
-                    + "\n" + "\n"
-                    + "请点击" + "\"设置\"-"
-                    + "\"权限\"-" + "打开所需权限。"
-                    + "\n" + "\n"
-                    + "最后点击两次后退按钮，即可返回。"
-            );
-
-            // 拒绝, 退出应用
-            builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mActivity.finish();
-                }
-            });
-
-            builder.setPositiveButton("设置", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startAppSettings();
-                }
-            });
-
-            builder.setCancelable(false);
-
-            dialog = builder.create();
-        }
-
-        dialog.show();
-    }
-
-    // 启动应用的设置
-    private void startAppSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse(PACKAGE_URL_SCHEME + mActivity.getPackageName()));
-        mActivity.startActivity(intent);
-    }
-
-    // 含有全部的权限
-    private boolean hasAllPermissionsGranted(@NonNull int[] grantResults) {
-        for (int grantResult : grantResults) {
-            if (grantResult == PackageManager.PERMISSION_DENIED) {
-                return false;
-            }
-        }
-        return true;
+        mListener.onGranted();
     }
 
     // 请求权限兼容低版本
@@ -274,15 +168,11 @@ public class XPermissionsNoticeWindow {
 
             } catch (Exception e) {
                 if (!mChecker.isNeedRequestPermissions(ALL_PERMISSION)) {
-                    isInterceptResume = true;
                     mListener.onGranted();
                 } else {
                     // 请求权限
                     requestPermissions(ALL_PERMISSION);
                 }
-
-                // 失败去onResume监听
-                isStarted = true;
             }
         }
     }
