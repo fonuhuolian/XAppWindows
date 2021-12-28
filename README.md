@@ -32,6 +32,7 @@ implementation com.github.fonuhuolian:XAppWindows:1.0.6
   * 初始协议化弹出框
   * @param context       依附的Activity
   * @param startMsg      协议理由开始片段
+  * @param textSize      浏览器文字大小，可传null
   * @param agreement1    例如：《隐私政策》
   * @param agreement2    例如：《用户协议》
   * @param endMsg        协议理由后部分片段
@@ -57,7 +58,7 @@ agreementWindow.isShowing();
 `XPermissionsNoticeWindow`权限检查弹出框（支持自动申请权限）
 ```
 /**
-   * 初始化权限检查
+   * 初始化权限检查，根据最新政策要求，即使不同意也可进入App
    * @param context   上下文对象
    * @param dataList  List<包含 icon,权限名称,权限描述,权限的id>
    * @param XPermissionNoticeBean   eg. R.drawable.eg_storage_permission, "存储权限", "启权限后，可以使用图片下载、文件上传等功能", Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -68,8 +69,6 @@ public XPermissionsNoticeWindow(final Activity context, List<XPermissionNoticeBe
 ```
 // 启动权限检查
 permissionsWindow.start();
-// 在Activity的onResume方法里调用(必须)
-permissionsWindow.onResume();
 // 在Activity的onRequestPermissionsResult方法里调用(必须)
 permissionsWindow.onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
 ```
@@ -135,12 +134,6 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         xPermissionsNoticeWindow.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        xPermissionsNoticeWindow.onResume();
     }
 
     @Override
