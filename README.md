@@ -15,7 +15,7 @@ allprojects {
 ```
 `module build.gradle `
 ```
-implementation com.github.fonuhuolian:XAppWindows:1.0.7
+implementation com.github.fonuhuolian:XAppWindows:1.0.8
 ```
 
 > 混淆
@@ -148,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (!xPermissionsNoticeWindow.isShowing() && !xAgreementWindow.isShowing()) {
             finish();
+        } else if (xAgreementWindow.isShowing()) {
+            xAgreementWindow.goBack();
         }
     }
 }

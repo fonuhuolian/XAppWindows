@@ -239,6 +239,11 @@ public class XAgreementWindow {
         return builder;
     }
 
+    public void goBack() {
+        if (htmlWindow != null && htmlWindow.isShowing())
+            htmlWindow.goBack();
+    }
+
     public interface SpanListener {
         void onClick(String url);
     }

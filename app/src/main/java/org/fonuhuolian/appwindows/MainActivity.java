@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (!xPermissionsNoticeWindow.isShowing() && !xAgreementWindow.isShowing()) {
             finish();
+        } else if (xAgreementWindow.isShowing()) {
+            xAgreementWindow.goBack();
         }
     }
 }

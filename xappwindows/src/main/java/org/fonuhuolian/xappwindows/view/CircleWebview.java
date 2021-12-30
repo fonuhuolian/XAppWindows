@@ -1,117 +1,83 @@
 package org.fonuhuolian.xappwindows.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.View;
 import android.webkit.WebView;
 
 public class CircleWebview extends WebView {
 
+    private int width;
+
+    private int height;
+
+    private int mRadius = 0;
+
+    public CircleWebview(Context context) {
+        super(context);
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+    }
+
     public CircleWebview(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
 
     public CircleWebview(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
 
-    private float vRadius = 4;
-    private int vWidth;
-    private int vHeight;
-    private int x;
-    private int y;
-    private Paint paint1;
-    private Paint paint2;
-
-    private void init(Context context) {
-        paint1 = new Paint();
-        paint1.setColor(Color.WHITE);
-        paint1.setAntiAlias(true);
-        paint1.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-        //
-        paint2 = new Paint();
-        paint2.setXfermode(null);
+    public void setRadius(int radius) {
+        mRadius = radius;
     }
 
-    public void setRadius(float radius) {
-        vRadius = radius;
-    }
-
+    // This method gets called when the view first loads, and also whenever the
+    // view changes. Use this opportunity to save the view's width and height.
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        vWidth = getMeasuredWidth();
-        vHeight = getMeasuredHeight();
+    protected void onSizeChanged(int newWidth, int newHeight, int oldWidth, int oldHeight) {
+        super.onSizeChanged(newWidth, newHeight, oldWidth, oldHeight);
+
+        width = newWidth;
+
+        height = newHeight;
+
     }
 
+    @SuppressLint("DrawAllocation")
     @Override
-    public void draw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 
-        x = this.getScrollX();
-        y = this.getScrollY();
-        Bitmap bitmap = Bitmap.createBitmap(x + vWidth, y + vHeight,
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas2 = new Canvas(bitmap);
-        super.draw(canvas2);
-        drawLeftUp(canvas2);
-        drawRightUp(canvas2);
-        drawLeftDown(canvas2);
-        drawRightDown(canvas2);
-        canvas.drawBitmap(bitmap, 0, 0, paint2);
-        bitmap.recycle();
-    }
+        if (mRadius == 0)
+            return;
 
-    private void drawLeftUp(Canvas canvas) {
         Path path = new Path();
-        path.moveTo(x, vRadius);
-        path.lineTo(x, y);
-        path.lineTo(vRadius, y);
-        path.arcTo(new RectF(x, y, x + vRadius * 2, y + vRadius * 2), -90, -90);
-        path.close();
-        canvas.drawPath(path, paint1);
+
+        path.setFillType(Path.FillType.INVERSE_WINDING);
+
+        path.addRoundRect(new RectF(getScrollX(), getScrollY(), getScrollX() + width, getScrollY() + height), mRadius, mRadius, Path.Direction.CW);
+
+        canvas.drawPath(path, createPorterDuffClearPaint());
     }
 
+    private Paint createPorterDuffClearPaint() {
+        Paint paint = new Paint();
 
-    private void drawLeftDown(Canvas canvas) {
-        Path path = new Path();
-        path.moveTo(x, y + vHeight - vRadius);
-        path.lineTo(x, y + vHeight);
-        path.lineTo(x + vRadius, y + vHeight);
-        path.arcTo(new RectF(x, y + vHeight - vRadius * 2,
-                x + vRadius * 2, y + vHeight), 90, 90);
-        path.close();
-        canvas.drawPath(path, paint1);
+        paint.setStyle(Paint.Style.FILL);
+
+        paint.setAntiAlias(true);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
+        return paint;
     }
 
-
-    private void drawRightDown(Canvas canvas) {
-        Path path = new Path();
-        path.moveTo(x + vWidth - vRadius, y + vHeight);
-        path.lineTo(x + vWidth, y + vHeight);
-        path.lineTo(x + vWidth, y + vHeight - vRadius);
-        path.arcTo(new RectF(x + vWidth - vRadius * 2, y + vHeight
-                - vRadius * 2, x + vWidth, y + vHeight), 0, 90);
-        path.close();
-        canvas.drawPath(path, paint1);
-    }
-
-
-    private void drawRightUp(Canvas canvas) {
-        Path path = new Path();
-        path.moveTo(x + vWidth, y + vRadius);
-        path.lineTo(x + vWidth, y);
-        path.lineTo(x + vWidth - vRadius, y);
-        path.arcTo(new RectF(x + vWidth - vRadius * 2, y, x + vWidth,
-                y + vRadius * 2), -90, 90);
-        path.close();
-        canvas.drawPath(path, paint1);
-    }
 }

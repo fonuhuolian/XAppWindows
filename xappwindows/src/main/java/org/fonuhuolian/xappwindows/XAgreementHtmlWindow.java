@@ -51,7 +51,7 @@ class XAgreementHtmlWindow {
         webView = contentView.findViewById(R.id.x_webView);
         final float scale = context.getResources().getDisplayMetrics().density;
         float v = 24 * scale + 0.5f;
-        webView.setRadius(v);
+        webView.setRadius((int) v);
         TextView agree = (TextView) contentView.findViewById(R.id.x_detail_agree);
         final ProgressBar pb = (ProgressBar) contentView.findViewById(R.id.x_pb);
 
@@ -113,6 +113,11 @@ class XAgreementHtmlWindow {
 
     public boolean isShowing() {
         return popWindow != null && popWindow.isShowing();
+    }
+
+    public void goBack() {
+        if (webView != null && webView.canGoBack())
+            webView.goBack();
     }
 
     public interface Listener {
