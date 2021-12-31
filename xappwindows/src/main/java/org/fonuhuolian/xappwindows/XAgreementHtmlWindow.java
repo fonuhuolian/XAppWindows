@@ -57,7 +57,16 @@ class XAgreementHtmlWindow {
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setTextSize(textSize == null ? WebSettings.TextSize.NORMAL : textSize);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+                super.doUpdateVisitedHistory(view, url, isReload);
+                if (needClearHistory) {
+                    needClearHistory = false;
+                    view.clearHistory();
+                }
+            }
+        });
 
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -86,13 +95,15 @@ class XAgreementHtmlWindow {
 
     }
 
+    boolean needClearHistory = false;
+
     public void show(String url) {
 
         if (popWindow != null) {
 
             try {
-                webView.clearHistory();
                 webView.loadUrl(url);
+                needClearHistory = true;
                 final View decorView = mActivity.getWindow().getDecorView();
                 decorView.post(new Runnable() {
                     @Override
