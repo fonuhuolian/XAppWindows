@@ -91,6 +91,7 @@ class XAgreementHtmlWindow {
         if (popWindow != null) {
 
             try {
+                webView.clearHistory();
                 webView.loadUrl(url);
                 final View decorView = mActivity.getWindow().getDecorView();
                 decorView.post(new Runnable() {

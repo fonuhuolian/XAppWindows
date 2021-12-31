@@ -15,7 +15,7 @@ allprojects {
 ```
 `module build.gradle `
 ```
-implementation com.github.fonuhuolian:XAppWindows:1.0.8
+implementation com.github.fonuhuolian:XAppWindows:1.0.9
 ```
 
 > 混淆
